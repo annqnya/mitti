@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MITTI – Make It to Take It | EcoFest</title>
+    <style>
+        :root { --clay: #d48a6a; --leaf: #6b7a5f; --sand: #faf9f6; --earth: #4a3728; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--sand); color: #333; padding-top: 80px; scroll-behavior: smooth; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        header { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); z-index: 1000; padding: 10px 0; border-bottom: 1px solid #ddd; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 60px; width: auto; border-radius: 8px; }
+        
+        .nav-links a { text-decoration: none; color: var(--earth); font-weight: 600; margin-left: 20px; font-size: 0.9rem; border-bottom: 2px solid transparent; transition: 0.3s; }
+        .nav-links a:hover { border-bottom: 2px solid var(--clay); }
+
+        .section-title { text-align: center; margin: 40px 0 20px; color: var(--earth); font-size: 2rem; font-weight: 300; }
+        
+        /* EXPERIENCE SECTION */
+        .exp-box { background: white; border-radius: 20px; overflow: hidden; display: flex; flex-wrap: wrap; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 40px; border: 2px solid var(--clay); }
+        .exp-img { flex: 1; min-width: 300px; height: 350px; object-fit: cover; }
+        .exp-content { flex: 1; min-width: 300px; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 20px 0; }
+        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-5px); }
+        .card-img { width: 100%; height: 250px; object-fit: cover; background: #eee; }
+        .card-body { padding: 20px; text-align: center; flex-grow: 1; }
+        
+        .price-tag { color: var(--clay); font-weight: 700; margin: 10px 0; font-size: 1.1rem; }
+        .btn { background: var(--clay); color: white; padding: 12px 24px; border: none; border-radius: 30px; cursor: pointer; font-weight: 600; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
+        .btn:hover { background: var(--earth); transform: scale(1.05); }
+        .btn-whatsapp { background: #25D366; width: 100%; font-size: 1rem; margin-top: 20px; border-radius: 10px; }
+
+        #interest-list { background: white; padding: 40px; border-radius: 25px; margin: 60px 0; box-shadow: 0 15px 50px rgba(0,0,0,0.1); border: 1px solid #eee; }
+        .list-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        
+        input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; outline: none; }
+        input:focus { border-color: var(--clay); }
+        
+        footer { text-align: center; padding: 40px; color: #888; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container header-content">
+        <div class="logo"><img src="logo.jpeg" id="mainLogo" alt="MITTI"></div>
+        <nav class="nav-links">
+            <a href="#experience">Workshop</a>
+            <a href="#products">Products</a>
+            <a href="#interest-list">My Interest (<span id="count">0</span>)</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    
+    <h2 class="section-title" id="experience">The Experience</h2>
+    <div class="exp-box">
+        <img src="experience.jpeg" class="exp-img" alt="Pottery Experience" onerror="this.src='experience.jpeg.jpeg'">
+        <div class="exp-content">
+            <h2 style="color:var(--earth)">Pottery Making Session</h2>
+            <p style="margin: 15px 0; color: #666;">Experience the meditative art of clay. Try your hand at the wheel or learn hand-modeling techniques. Take home what you create!</p>
+            <p class="price-tag" style="font-size: 1.5rem;">Starts at ₹99</p>
+            <button class="btn" onclick="addToInterest('Pottery Experience', 'Starts at ₹99')">Add to Interest List</button>
+        </div>
+    </div>
+
+    <h2 class="section-title" id="products">Handmade Collection</h2>
+    <div class="grid" id="product-grid"></div>
+
+    <div id="interest-list">
+        <h2 style="text-align:center; color:var(--earth)">My Interest List</h2>
+        <p style="text-align:center; color:#999; margin-bottom: 20px;">No prices are final. I'll reach out to discuss sizes and details with you!</p>
+        
+        <div id="display-list">
+            <p style="text-align:center; padding: 20px;">Your list is empty.</p>
+        </div>
+
+        <div style="max-width: 500px; margin: 30px auto 0;">
+            <input type="text" id="custName" placeholder="Your Name">
+            <input type="text" id="cabinNum" placeholder="Cabin Number (For Professors)">
+            <button class="btn btn-whatsapp" onclick="sendWhatsApp()">Send Interest to WhatsApp</button>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>MITTI – Make It to Take It | EcoFest 2026</p>
+</footer>
+
+<script>
+    const products = [
+        { name: "Handmade Bottle", range: "₹350 – ₹600", base: "bottle" },
+        { name: "Handmade Bowls", range: "₹150", base: "bowls" },
+        { name: "Wind Chime", range: "₹500 – ₹700", base: "chime" },
+        { name: "Coconut Diya Holder", range: "₹300 (1) / ₹500 (2)", base: "coconut" },
+        { name: "Handmade Cup", range: "₹60 – ₹150", base: "cup" },
+        { name: "Small Diyas", range: "₹30", base: "diya" },
+        { name: "Drinking Glass", range: "₹120", base: "glass" },
+        { name: "Wine Glass", range: "₹150", base: "wine" },
+        { name: "Incense Holder", range: "₹150 – ₹300", base: "incense" },
+        { name: "Pickle Jar", range: "₹350 – ₹700", base: "picklejar" },
+        { name: "Plant Pot", range: "₹200 – ₹400", base: "pot" }
+    ];
+
+    function renderProducts() {
+        const grid = document.getElementById('product-grid');
+        grid.innerHTML = products.map(p => `
+            <div class="card">
+                <img src="${p.base}.jpeg" class="card-img" alt="${p.name}" 
+                     onerror="this.onerror=null; this.src='${p.base}.jpeg.jpeg';">
+                <div class="card-body">
+                    <h3>${p.name}</h3>
+                    <p class="price-tag">${p.range}</p>
+                    <button class="btn" onclick="addToInterest('${p.name}', '${p.range}')">I'm Interested</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Logo Fallback
+    document.getElementById('mainLogo').onerror = function() {
+        this.onerror = null; this.src = 'logo.jpeg.jpeg';
+    };
+
+    let interestList = [];
+
+    function addToInterest(name, range) {
+        interestList.push({name, range});
+        updateUI();
+        // Visual feedback
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = "Added!";
+        btn.style.background = "#6b7a5f";
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.background = "#d48a6a";
+        }, 1000);
+    }
+
+    function updateUI() {
+        document.getElementById('count').innerText = interestList.length;
+        const display = document.getElementById('display-list');
+        
+        if(interestList.length === 0) {
+            display.innerHTML = '<p style="text-align:center; padding: 20px;">Your list is empty.</p>';
+            return;
+        }
+
+        display.innerHTML = interestList.map((item, index) => `
+            <div class="list-item">
+                <span><strong>${item.name}</strong> (${item.range})</span>
+                <button onclick="removeItem(${index})" style="border:none; background:none; color:red; cursor:pointer; font-weight:bold;">Remove</button>
+            </div>
+        `).join('');
+    }
+
+    function removeItem(index) {
+        interestList.splice(index, 1);
+        updateUI();
+    }
+
+    function sendWhatsApp() {
+        const name = document.getElementById('custName').value;
+        const cabin = document.getElementById('cabinNum').value;
+        if(!name) { alert("Please enter your name!"); return; }
+        if(interestList.length === 0) { alert("Your list is empty!"); return; }
+
+        let text = `*MITTI EcoFest Interest*%0A*From:* ${name}%0A`;
+        if(cabin) text += `*Cabin:* ${cabin}%0A`;
+        text += `%0A*Interested in:*%0A`;
+        
+        interestList.forEach(item => {
+            text += `- ${item.name} (${item.range})%0A`;
+        });
+        
+        text += `%0A_Please let me know the details and sizes available!_`;
+
+        // REPLACE THE NUMBER BELOW WITH YOUR ACTUAL NUMBER
+        window.open(`https://wa.me/91XXXXXXXXXX?text=${text}`, '_blank');
+    }
+
+    renderProducts();
+</script>
+</body>
+</html>
