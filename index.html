@@ -7,24 +7,18 @@
     <style>
         :root { --clay: #d48a6a; --leaf: #6b7a5f; --sand: #faf9f6; --earth: #4a3728; --urgent: #b84a4a; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--sand); color: #333; padding-top: 110px; scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--sand); color: #333; padding-top: 85px; scroll-behavior: smooth; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         
-        /* URGENCY BANNER + COUNTDOWN */
-        .urgency-bar { background: var(--urgent); color: white; text-align: center; padding: 8px 10px; font-size: 0.85rem; font-weight: 600; position: fixed; top: 0; width: 100%; z-index: 1100; letter-spacing: 0.5px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        #countdown { font-family: monospace; background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 4px; }
-
-        header { position: fixed; top: 35px; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 10px 0; border-bottom: 1px solid #eee; }
+        header { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 12px 0; border-bottom: 1px solid #eee; }
         .header-content { display: flex; justify-content: space-between; align-items: center; }
         .logo-area { display: flex; align-items: center; gap: 12px; }
         .logo img { height: 55px; width: auto; border-radius: 8px; }
         .stall-badge { background: var(--leaf); color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: 700; }
         
         .nav-links a { text-decoration: none; color: var(--earth); font-weight: 600; margin-left: 15px; font-size: 0.85rem; }
-
         .section-title { text-align: center; margin: 40px 0 20px; color: var(--earth); font-size: 2rem; font-weight: 300; }
         
-        /* EXPERIENCE SECTION */
         .exp-box { background: white; border-radius: 20px; overflow: hidden; display: flex; flex-wrap: wrap; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 40px; border: 2px solid var(--clay); }
         .exp-img { flex: 1; min-width: 300px; height: 350px; object-fit: cover; }
         .exp-content { flex: 1; min-width: 300px; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
@@ -32,36 +26,24 @@
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 20px 0; }
         .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-5px); }
         .card-img { width: 100%; height: 250px; object-fit: cover; background: #eee; }
         .card-body { padding: 20px; text-align: center; flex-grow: 1; }
         
         .price-tag { color: var(--clay); font-weight: 700; margin: 10px 0; font-size: 1.1rem; }
         .btn { background: var(--clay); color: white; padding: 12px 24px; border: none; border-radius: 30px; cursor: pointer; font-weight: 600; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
-        .btn:hover { background: var(--earth); }
         .btn-whatsapp { background: #25D366; width: 100%; font-size: 1rem; margin-top: 20px; border-radius: 10px; }
 
         #interest-list { background: white; padding: 40px; border-radius: 25px; margin: 60px 0; box-shadow: 0 15px 50px rgba(0,0,0,0.1); border: 1px solid #eee; }
         .list-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
         
-        input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; outline: none; }
-        input:focus { border-color: var(--clay); }
-
-        /* MODAL */
+        input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 2000; }
-        .modal { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .modal { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; }
         .modal-btns { display: flex; gap: 10px; flex-direction: column; margin-top: 20px; }
-
         footer { text-align: center; padding: 40px; color: #888; font-size: 0.8rem; }
     </style>
 </head>
 <body>
-
-<div class="urgency-bar">
-    <span>🏺 ECOFEST STARTS IN:</span>
-    <span id="countdown">00d 00h 00m 00s</span>
-    <span>| PRE-BOOK BEFORE SLOTS VANISH!</span>
-</div>
 
 <header>
     <div class="container header-content">
@@ -82,8 +64,9 @@
     <div class="exp-box">
         <img src="experience.jpeg" class="exp-img" alt="Pottery Experience">
         <div class="exp-content">
+            <span class="limited-tag">🔥 Only 15 Slots Per Day</span>
             <h2 style="color:var(--earth)">Pottery Making Session</h2>
-            <p style="margin: 15px 0; color: #666;"> Hands-on Pottery Experience at <strong>Stall #20</strong>. Slots are extremely limited—pre-booking ensures you don't miss out on the day.</p>
+            <p style="margin: 15px 0; color: #666;">Experience the meditative art of clay at <strong>Stall #20</strong>. Slots are filling fast—pre-booking ensures you don't miss out.</p>
             <p class="price-tag" style="font-size: 1.5rem;">Starts at ₹99</p>
             <button class="btn" onclick="addToInterest('Pottery Experience Slot', '₹99')">Pre-book Slot</button>
         </div>
@@ -93,14 +76,11 @@
     <div class="grid" id="product-grid"></div>
 
     <div id="interest-list">
-        <h2 style="text-align:center; color:var(--earth)">Finish Pre-booking</h2>
-        <p style="text-align:center; color:#999; margin-bottom: 20px;">Find us at <strong>EcoFest Stall #20</strong>. Note your details and we'll connect!</p>
-        
+        <h2 style="text-align:center; color:var(--earth)">Confirm Pre-booking</h2>
         <div id="display-list"><p style="text-align:center; padding: 20px;">List is empty.</p></div>
-
         <div style="max-width: 500px; margin: 30px auto 0;">
             <input type="text" id="custName" placeholder="Full Name">
-            <input type="text" id="deptName" placeholder="Dept Name (eg. TAPMI / MIT / DOC)">
+            <input type="text" id="deptName" placeholder="College/Dept (eg. TAPMI / MIT / DOC)">
             <input type="text" id="cabinNum" placeholder="Cabin Number (For Professors)">
             <button class="btn btn-whatsapp" onclick="sendWhatsApp()">Confirm via WhatsApp</button>
         </div>
@@ -109,8 +89,8 @@
 
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
-        <h2>Got it! 🏺</h2>
-        <p>Scroll to the bottom to place an order through WhatsApp!</p>
+        <h2>Added to List! 🏺</h2>
+        <p>Pre-booking now is the only way to guarantee your slot!</p>
         <div class="modal-btns">
             <button class="btn" onclick="closeModal('list')">Finish Booking</button>
             <button class="btn" style="background:transparent; border:1px solid var(--clay); color:var(--clay);" onclick="closeModal('continue')">View More</button>
@@ -125,13 +105,14 @@
         { name: "Handmade Bottle", range: "₹350 – ₹600", base: "bottle" },
         { name: "Handmade Bowls", range: "₹150", base: "bowls" },
         { name: "Wind Chime", range: "₹500 – ₹700", base: "chime" },
-        { name: "Coconut Diya Holder", range: "‼️ ₹300 for 1, ₹500 for 2 ‼️", base: "coconut" },
+        { name: "Coconut Diya Holder", range: "₹300 – ₹500", base: "coconut" },
         { name: "Handmade Cup", range: "₹60 – ₹150", base: "cup" },
         { name: "Small Diyas", range: "₹30", base: "diya" },
         { name: "Drinking Glass", range: "₹120", base: "glass" },
         { name: "Wine Glass", range: "₹150", base: "wine" },
         { name: "Incense Holder", range: "₹150 – ₹300", base: "incense" },
-        { name: "Pickle Jar", range: "₹350 – ₹700", base: "picklejar" },
+        { name: "Pickle Jar", range: "₹350 – ₹700", base: "pickle" },
+        { name: "Mini Coin Jar", range: "₹100 – ₹200", base: "picklejar" },
         { name: "Plant Pot", range: "₹200 – ₹400", base: "pot" }
     ];
 
@@ -149,18 +130,6 @@
         `).join('');
     }
 
-    // Countdown Logic (Set to March 27, 2026)
-    const countDownDate = new Date("Mar 26, 2026 09:00:00").getTime();
-    setInterval(function() {
-        const now = new Date().getTime();
-        const distance = countDownDate - now;
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-    }, 1000);
-
     let interestList = [];
     function addToInterest(name, range) {
         interestList.push({name, range});
@@ -174,7 +143,7 @@
     function updateUI() {
         document.getElementById('count').innerText = interestList.length;
         const display = document.getElementById('display-list');
-        if(interestList.length === 0) { display.innerHTML = '<p style="text-align:center; padding: 20px;">List is empty.</p>'; return; }
+        if(interestList.length === 0) { display.innerHTML = '<p>List is empty.</p>'; return; }
         display.innerHTML = interestList.map((item, index) => `<div class="list-item"><span><strong>${item.name}</strong></span><button onclick="removeItem(${index})" style="color:red; border:none; background:none; cursor:pointer;">&times;</button></div>`).join('');
     }
     function removeItem(index) { interestList.splice(index, 1); updateUI(); }
@@ -186,13 +155,13 @@
         if(!name) { alert("Please enter your name!"); return; }
         if(interestList.length === 0) { alert("Add something to your list!"); return; }
 
-        let text = `*MITTI STALL #20 - PRE-BOOK*%0A*Name:* ${name}%0A`;
-        if(dept) text += `*College/Dept:* ${dept}%0A`;
+        let text = `*MITTI STALL #20 - PRE-BOOK*%0A*Name:* ${name}%0A*College/Dept:* ${dept}%0A`;
         if(cabin) text += `*Cabin:* ${cabin}%0A`;
         text += `%0A*Booking:*%0A`;
         interestList.forEach(item => text += `- ${item.name}%0A`);
         
-        window.open(`https://wa.me/919904482266?text=${text}`, '_blank');
+        // REPLACE WITH YOUR ACTUAL NUMBER
+        window.open(`https://wa.me/91XXXXXXXXXX?text=${text}`, '_blank');
     }
     renderProducts();
 </script>
