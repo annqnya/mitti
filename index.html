@@ -32,7 +32,7 @@
         
         .price-tag { color: var(--clay); font-weight: 700; margin: 10px 0; font-size: 1.1rem; }
         .btn { background: var(--clay); color: white; padding: 12px 24px; border: none; border-radius: 30px; cursor: pointer; font-weight: 600; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
-        .btn:hover { background: var(--earth); transform: scale(1.05); }
+        .btn:hover { background: var(--earth); }
         .btn-whatsapp { background: #25D366; width: 100%; font-size: 1rem; margin-top: 20px; border-radius: 10px; }
 
         #interest-list { background: white; padding: 40px; border-radius: 25px; margin: 60px 0; box-shadow: 0 15px 50px rgba(0,0,0,0.1); border: 1px solid #eee; }
@@ -40,15 +40,34 @@
         
         input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; outline: none; }
         input:focus { border-color: var(--clay); }
-        
+
+        /* POPUP MODAL STYLES */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .modal h2 { color: var(--clay); margin-bottom: 15px; }
+        .modal p { color: #666; margin-bottom: 25px; }
+        .modal-btns { display: flex; gap: 10px; flex-direction: column; }
+        .btn-outline { background: transparent; border: 2px solid var(--clay); color: var(--clay); }
+
         footer { text-align: center; padding: 40px; color: #888; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <h2>Added to List! 🏺</h2>
+        <p>I've noted your interest. Would you like to check out now or see more beautiful pieces?</p>
+        <div class="modal-btns">
+            <button class="btn" onclick="closeModal('list')">Go to Interest List</button>
+            <button class="btn btn-outline" onclick="closeModal('continue')">Look at More Products</button>
+        </div>
+    </div>
+</div>
+
 <header>
     <div class="container header-content">
-        <div class="logo"><img src="logo.jpeg" id="mainLogo" alt="MITTI"></div>
+        <div class="logo"><img src="logo.jpeg" alt="MITTI"></div>
         <nav class="nav-links">
             <a href="#experience">Workshop</a>
             <a href="#products">Products</a>
@@ -58,13 +77,12 @@
 </header>
 
 <div class="container">
-    
     <h2 class="section-title" id="experience">The Experience</h2>
     <div class="exp-box">
-        <img src="experience.jpeg" class="exp-img" alt="Pottery Experience" onerror="this.src='experience.jpeg.jpeg'">
+        <img src="experience.jpeg" class="exp-img" alt="Pottery Experience">
         <div class="exp-content">
             <h2 style="color:var(--earth)">Pottery Making Session</h2>
-            <p style="margin: 15px 0; color: #666;">Experience the meditative art of clay. Try your hand at the wheel or learn hand-modeling techniques. Take home what you create!</p>
+            <p style="margin: 15px 0; color: #666;">Experience the meditative art of clay. Try your hand at the wheel or learn hand-modeling techniques.</p>
             <p class="price-tag" style="font-size: 1.5rem;">Starts at ₹99</p>
             <button class="btn" onclick="addToInterest('Pottery Experience', 'Starts at ₹99')">Add to Interest List</button>
         </div>
@@ -75,7 +93,7 @@
 
     <div id="interest-list">
         <h2 style="text-align:center; color:var(--earth)">My Interest List</h2>
-        <p style="text-align:center; color:#999; margin-bottom: 20px;">No prices are final. I'll reach out to discuss sizes and details with you!</p>
+        <p style="text-align:center; color:#999; margin-bottom: 20px;">No prices are final. I'll reach out to discuss details with you!</p>
         
         <div id="display-list">
             <p style="text-align:center; padding: 20px;">Your list is empty.</p>
@@ -83,16 +101,14 @@
 
         <div style="max-width: 500px; margin: 30px auto 0;">
             <input type="text" id="custName" placeholder="Your Name">
-            <input type="text" id="cabinNum" placeholder="Cabin Number (For Professors)">
+            <input type="text" id="deptName" placeholder="Department Name (e.g. BBA, Economics)">
+            <input type="text" id="cabinNum" placeholder="Cabin Number (Optional - For Professors)">
             <button class="btn btn-whatsapp" onclick="sendWhatsApp()">Send Interest to WhatsApp</button>
         </div>
     </div>
-
 </div>
 
-<footer>
-    <p>MITTI – Make It to Take It | EcoFest 2026</p>
-</footer>
+<footer><p>MITTI – Make It to Take It | EcoFest 2026</p></footer>
 
 <script>
     const products = [
@@ -105,7 +121,8 @@
         { name: "Drinking Glass", range: "₹120", base: "glass" },
         { name: "Wine Glass", range: "₹150", base: "wine" },
         { name: "Incense Holder", range: "₹150 – ₹300", base: "incense" },
-        { name: "Pickle Jar", range: "₹350 – ₹700", base: "picklejar" },
+        { name: "Pickle Jar", range: "₹350 – ₹700", base: "pickle" },
+        { name: "Mini Coin Jar", range: "₹100 – ₹200", base: "picklejar" },
         { name: "Plant Pot", range: "₹200 – ₹400", base: "pot" }
     ];
 
@@ -113,8 +130,7 @@
         const grid = document.getElementById('product-grid');
         grid.innerHTML = products.map(p => `
             <div class="card">
-                <img src="${p.base}.jpeg" class="card-img" alt="${p.name}" 
-                     onerror="this.onerror=null; this.src='${p.base}.jpeg.jpeg';">
+                <img src="${p.base}.jpeg" class="card-img" alt="${p.name}" onerror="this.src='${p.base}.jpeg.jpeg'">
                 <div class="card-body">
                     <h3>${p.name}</h3>
                     <p class="price-tag">${p.range}</p>
@@ -124,36 +140,28 @@
         `).join('');
     }
 
-    // Logo Fallback
-    document.getElementById('mainLogo').onerror = function() {
-        this.onerror = null; this.src = 'logo.jpeg.jpeg';
-    };
-
     let interestList = [];
 
     function addToInterest(name, range) {
         interestList.push({name, range});
         updateUI();
-        // Visual feedback
-        const btn = event.target;
-        const originalText = btn.innerText;
-        btn.innerText = "Added!";
-        btn.style.background = "#6b7a5f";
-        setTimeout(() => {
-            btn.innerText = originalText;
-            btn.style.background = "#d48a6a";
-        }, 1000);
+        document.getElementById('modalOverlay').style.display = 'flex';
+    }
+
+    function closeModal(action) {
+        document.getElementById('modalOverlay').style.display = 'none';
+        if(action === 'list') {
+            window.location.hash = "interest-list";
+        }
     }
 
     function updateUI() {
         document.getElementById('count').innerText = interestList.length;
         const display = document.getElementById('display-list');
-        
         if(interestList.length === 0) {
             display.innerHTML = '<p style="text-align:center; padding: 20px;">Your list is empty.</p>';
             return;
         }
-
         display.innerHTML = interestList.map((item, index) => `
             <div class="list-item">
                 <span><strong>${item.name}</strong> (${item.range})</span>
@@ -169,22 +177,19 @@
 
     function sendWhatsApp() {
         const name = document.getElementById('custName').value;
+        const dept = document.getElementById('deptName').value;
         const cabin = document.getElementById('cabinNum').value;
         if(!name) { alert("Please enter your name!"); return; }
         if(interestList.length === 0) { alert("Your list is empty!"); return; }
 
-        let text = `*MITTI EcoFest Interest*%0A*From:* ${name}%0A`;
+        let text = `*MITTI EcoFest Interest*%0A*Name:* ${name}%0A`;
+        if(dept) text += `*Dept:* ${dept}%0A`;
         if(cabin) text += `*Cabin:* ${cabin}%0A`;
         text += `%0A*Interested in:*%0A`;
+        interestList.forEach(item => text += `- ${item.name} (${item.range})%0A`);
         
-        interestList.forEach(item => {
-            text += `- ${item.name} (${item.range})%0A`;
-        });
-        
-        text += `%0A_Please let me know the details and sizes available!_`;
-
-        // REPLACE THE NUMBER BELOW WITH YOUR ACTUAL NUMBER
-        window.open(`https://wa.me/919904482266?text=${text}`, '_blank');
+        // Don't forget to put your actual phone number here!
+        window.open(`https://wa.me/91XXXXXXXXXX?text=${text}`, '_blank');
     }
 
     renderProducts();
