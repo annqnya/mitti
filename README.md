@@ -1,0 +1,1 @@
+ecofest - a sem2 economics project - required all groups to set up stalls and compete for grading based on revenue generation. mitti was my group's initiative, and this website is a prebooking/display website for the same.
